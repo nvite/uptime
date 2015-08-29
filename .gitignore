@@ -49,9 +49,18 @@ coverage.xml
 
 # Django stuff:
 *.log
+*.sqlite3
+celerybeat-schedule
+djcelery.schedulers.DatabaseScheduler
 
 # Sphinx documentation
 docs/_build/
 
 # PyBuilder
 target/
+
+# Mac crap
+.DS_Store
+
+#PyEnv / Virtualenv
+versions
