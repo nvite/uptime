@@ -4,6 +4,10 @@ from django.db import models
 from django.db.models import Avg
 from django.contrib.auth.models import User
 from django.template.defaultfilters import slugify
+from dirtyfields import DirtyFieldsMixin
+
+from nvuptime.pinger.email import (EndpointDownEmailThread,
+                                   EndpointUpEmailThread)
 
 PASS = 0
 TIMEOUT = 1
@@ -18,14 +22,14 @@ DISPOSITION_CHOICES = (
 
 
 class Group(models.Model):
-    name = models.CharField(max_length=100)
+    title = models.CharField(max_length=100)
     slug = models.SlugField(db_index=True, unique=True, max_length=100)
     members = models.ManyToManyField(User, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
-    def __unicode__(self):
-        return u"{name}".format(self.__dict__)
+    def __str__(self):
+        return self.title
 
     def save(self, *args, **kwargs):
         self.ensure_slug()
@@ -33,7 +37,7 @@ class Group(models.Model):
 
     def ensure_slug(self):
         if not self.slug:
-            self.slug = slugify(self.name)[:100].rstrip('-')
+            self.slug = slugify(self.title)[:100].rstrip('-')
 
 
 class EndpointManager(models.Manager):
@@ -43,8 +47,8 @@ class EndpointManager(models.Manager):
         return qset.filter(is_active=True)
 
 
-class Endpoint(models.Model):
-    name = models.CharField(max_length=100)
+class Endpoint(DirtyFieldsMixin, models.Model):
+    title = models.CharField(max_length=100)
     slug = models.SlugField(db_index=True, unique=True, max_length=100)
     url = models.URLField()
     timeout = models.DurationField(default=datetime.timedelta(seconds=5))
@@ -53,11 +57,15 @@ class Endpoint(models.Model):
     is_active = models.BooleanField(db_index=True, default=True)
     is_up = models.BooleanField(db_index=True, default=True)
     group = models.ForeignKey(Group, related_name='endpoints')
-    subscribers = models.ForeignKey(User, related_name='endpoints')
+    subscribers = models.ManyToManyField(User, related_name='endpoints',
+                                         blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     objects = EndpointManager()
+
+    def __str__(self):
+        return self.title
 
     @property
     def ping_count(self):
@@ -78,16 +86,21 @@ class Endpoint(models.Model):
         except:
             pass
 
-    def __unicode__(self):
-        return u"{name}".format(self.__dict__)
-
     def save(self, *args, **kwargs):
         self.ensure_slug()
+
+        dirty_fields = self.get_dirty_fields()
+        if 'is_up' in dirty_fields.keys():
+            if self.is_up is False:
+                EndpointDownEmailThread(self).run()
+            else:
+                EndpointUpEmailThread(self,).run()
+
         super(Endpoint, self).save(*args, **kwargs)
 
     def ensure_slug(self):
         if not self.slug:
-            self.slug = slugify(self.name)[:100].rstrip('-')
+            self.slug = slugify(self.title)[:100].rstrip('-')
 
 
 class PingManager(models.Manager):
@@ -98,6 +111,9 @@ class PingManager(models.Manager):
 
     def failed(qset):
         return qset.filter(disposition__gt=PASS)
+
+    def timeframe(qset, **kwargs):
+        pass
 
 
 class Ping(models.Model):
@@ -115,5 +131,8 @@ class Ping(models.Model):
     class Meta:
         ordering = ('-created_at', )
 
-    def __unicode__(self):
-        return u"{endpoint}: {disposition}@{created_at}".format(self.__dict__)
+    def __str__(self):
+        data = self.__dict__
+        data['endpoint'] = self.endpoint.__str__()
+        data['disposition'] = self.get_disposition_display()
+        return "{endpoint}: {disposition}@{created_at}".format(**data)

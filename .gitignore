@@ -52,6 +52,7 @@ coverage.xml
 *.sqlite3
 celerybeat-schedule
 djcelery.schedulers.DatabaseScheduler
+local_settings.py
 
 # Sphinx documentation
 docs/_build/

@@ -1,0 +1,10 @@
+DEBUG = True
+ADMINS = (
+    ('name', 'email')
+)
+SECRET_KEY = ''
+
+POSTMARK_API_KEY = ''
+POSTMARK_SENDER = ''
+POSTMARK_TEST_MODE = False
+POSTMARK_TRACK_OPENS = True

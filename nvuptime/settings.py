@@ -12,6 +12,9 @@ https://docs.djangoproject.com/en/1.8/ref/settings/
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
+import re
+import json
+import sys
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -20,7 +23,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/1.8/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '(p4xfjn0h6wrw$!veik8iagye_lo7gz!v3!6)qs+a)u(0y&8f_'
+SECRET_KEY = 'key is in local_settings.py'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -105,8 +108,34 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 
+# Email
+EMAIL_BACKEND = 'postmark.django_backend.EmailBackend'
+
+
 # Celery
 
 CELERY_RESULT_BACKEND = 'djcelery.backends.database:DatabaseBackend'
 CELERYBEAT_SCHEDULER = "djcelery.schedulers.DatabaseScheduler"
 BROKER_URL = 'django://'
+
+if 'DEBUG' in os.environ.keys():
+    # Load .env file and
+    # Parse database configuration from $DATABASE_URL
+    import dj_database_url
+    DATABASES = {}
+    DATABASES['default'] = dj_database_url.config()
+    # Honor the 'X-Forwarded-Proto' header for request.is_secure()
+    SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+    for setting, value in os.environ.iteritems():
+        if re.search(r'^[A-Z][A-Z0-9_]+$', setting):
+            try:
+                setattr(sys.modules[__name__], setting, json.loads(value))
+            except:
+                setattr(sys.modules[__name__], setting, value)
+else:
+    try:
+        from .local_settings import *
+    except ImportError as e:
+        print("""Caught %s trying to import local_settings. Please make sure
+                 local_settings.py exists and is free of errors.""")
+        raise
