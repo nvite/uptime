@@ -70,6 +70,7 @@ class Endpoint(models.Model):
         except:
             pass
 
+    @property
     def avg_response_time(self):
         try:
             return self.pings.passed().aggregate(
