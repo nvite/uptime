@@ -1,5 +1,7 @@
 import datetime
 
+import pytz
+
 from django.db import models
 from django.db.models import Avg
 from django.contrib.auth.models import User
@@ -21,12 +23,22 @@ DISPOSITION_CHOICES = (
 )
 
 
+class GroupManager(models.Manager):
+    use_for_related_fields = True
+
+    def active(qset):
+        return qset.filter(is_active=True)
+
+
 class Group(models.Model):
     title = models.CharField(max_length=100)
     slug = models.SlugField(db_index=True, unique=True, max_length=100)
+    is_active = models.BooleanField(default=False)
     members = models.ManyToManyField(User, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    objects = GroupManager()
 
     def __str__(self):
         return self.title
@@ -51,6 +63,7 @@ class Endpoint(DirtyFieldsMixin, models.Model):
     title = models.CharField(max_length=100)
     slug = models.SlugField(db_index=True, unique=True, max_length=100)
     url = models.URLField()
+    ping_interval = models.DurationField(default=datetime.timedelta(minutes=5))
     timeout = models.DurationField(default=datetime.timedelta(seconds=5))
     expected_status = models.SmallIntegerField()
     expected_text = models.TextField(blank=True, null=True)
@@ -86,6 +99,15 @@ class Endpoint(DirtyFieldsMixin, models.Model):
         except:
             pass
 
+    @property
+    def age(self):
+        return (datetime.datetime.utcnow().replace(tzinfo=pytz.utc) -
+                self.pings.latest().created_at)
+
+    @property
+    def is_due(self):
+        return self.age >= self.ping_interval
+
     def save(self, *args, **kwargs):
         self.ensure_slug()
 
@@ -111,6 +133,9 @@ class PingManager(models.Manager):
 
     def failed(qset):
         return qset.filter(disposition__gt=PASS)
+
+    def latest(qset):
+        return qset.order_by('-created_at').first()
 
     def timeframe(qset, **kwargs):
         pass

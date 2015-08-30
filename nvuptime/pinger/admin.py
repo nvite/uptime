@@ -34,7 +34,8 @@ admin.site.register(Endpoint, EndpointAdmin)
 
 
 class GroupAdmin(admin.ModelAdmin):
-    list_display = ('title', 'slug', )
+    list_display = ('title', 'slug', 'is_active', )
+    list_editable = ('is_active', )
     prepopulated_fields = {'slug': ('title', )}
 
 admin.site.register(Group, GroupAdmin)
