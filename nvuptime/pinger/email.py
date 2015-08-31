@@ -25,8 +25,9 @@ class BasePostmarkEndpointEmailThread(threading.Thread):
         # feel free to spam admins whenever, but nobody else.
         admins = Counter(dict(settings.ADMINS).values())
         recipients = Counter(self.recipients)
-        return not (settings.DEBUG is True and
-                    len(list(recipients - admins)) is not 0)
+        should_send = not (settings.DEBUG is True and
+                           len(list(recipients - admins)) is not 0)
+        return should_send
 
     def run(self):
         headers = {}
