@@ -15,9 +15,14 @@ class Migration(migrations.Migration):
             name='ping',
             options={'ordering': ('-created_at',)},
         ),
-        migrations.AlterField(
+        migrations.RemoveField(
+            model_name='ping',
+            name='response_time',
+        ),
+        migrations.AddField(
             model_name='ping',
             name='response_time',
             field=models.DecimalField(max_digits=10, decimal_places=6),
+            preserve_default=False,
         ),
     ]
