@@ -106,6 +106,8 @@ class Endpoint(DirtyFieldsMixin, models.Model):
 
     @property
     def is_due(self):
+        if not self.pings.latest():
+            return True
         return self.age >= self.ping_interval
 
     def save(self, *args, **kwargs):
