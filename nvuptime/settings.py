@@ -113,6 +113,12 @@ STATICFILES_DIRS = (
 )
 
 
+# Fixtures
+FIXTURE_DIRS = (
+    '%s/fixtures' % BASE_DIR,
+    '%s/pinger/fixtures/' % BASE_DIR,
+)
+
 
 # Email
 EMAIL_BACKEND = 'postmark.django_backend.EmailBackend'
