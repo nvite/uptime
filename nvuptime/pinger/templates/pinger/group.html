@@ -1,0 +1,9 @@
+{% load humanize %}
+<h1>{{ object.title }}</h1>
+
+{% for endpoint in object.endpoints.active %}
+    <h2>{{ endpoint.title }}</h2>
+    <p><strong>Status:</strong> {% if endpoint.is_up %}Up{% else %}Down{% endif %}<br/>
+    <small>Last pinged: {{ endpoint.pings.latest.created_at | naturaltime }}</small>
+    <hr/>
+{% endfor %}

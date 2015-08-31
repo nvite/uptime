@@ -13,10 +13,16 @@ Including another URLconf
     1. Add an import:  from blog import urls as blog_urls
     2. Add a URL to urlpatterns:  url(r'^blog/', include(blog_urls))
 """
-from django.conf.urls import include, url
-from django.contrib import admin
+from django.conf.urls import url
+
+from nvuptime.pinger import views
 
 urlpatterns = [
-    url(r'^admin/', include(admin.site.urls)),
-    url(r'^', include('nvuptime.pinger.urls')),
+    url(r'^groups/(?P<slug>[-a-z0-9]+)/$', views.GroupDetail.as_view(),
+        name='group'),
+    url(r'^endpoints/(?P<slug>[a-z0-9]+)/$', views.EndpointDetail.as_view(),
+        name='endpoint'),
+    url(r'^pings/(?P<id>[0-9]+)/$', views.PingDetail.as_view(),
+        name='ping'),
+    url(r'^$', views.GroupDetail.as_view(), {'slug': 'public'}, name='public'),
 ]

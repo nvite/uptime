@@ -1,0 +1,14 @@
+{% load humanize %}
+<h1>{{ object.title }}</h1>
+<p><strong>Status:</strong> {% if object.is_up %}Up{% else %}Down{% endif %}<br/>
+<small>Last pinged: {{ object.pings.latest.created_at | naturaltime }}</small>
+
+{% for ping in latest_pings %}
+<p>Pinged {{ ping.created_at | naturaltime }}<br/>
+<strong>Status:</strong> {{ ping.status }}<br/>
+<strong>Response Code:</strong> {{ ping.response_code }}<br/>
+<strong>Response Time:</strong> {{ ping.response_time | floatformat:3 }} seconds<br/>
+</p>
+
+
+{% endfor %}
