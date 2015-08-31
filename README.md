@@ -9,4 +9,4 @@ Stuff to do:
 - [x] Uptime notifications via email
 - [x] Run each group's pings in their own thread
 - [ ] Front-end templates for displaying public / group statuses
-- [ ] Deploy to heroku at status.nvite.com
+- [x] Deploy to heroku at nvite-status.herokuapp.com
