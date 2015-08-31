@@ -4,11 +4,14 @@
 <small>Last pinged: {{ object.pings.latest.created_at | naturaltime }}</small>
 
 {% for ping in latest_pings %}
-<p>Pinged {{ ping.created_at | naturaltime }}<br/>
-<strong>Status:</strong> {{ ping.status }}<br/>
+<!-- <a href="{% url 'ping' ping.id %}"> -->
+	<p>Pinged {{ ping.created_at | naturaltime }}<br/>
+<!-- </a> -->
+<strong>Status:</strong> {% if ping.disposition == 0 %}Passed{% else %}Failed{% endif %}<br/>
 <strong>Response Code:</strong> {{ ping.response_code }}<br/>
 <strong>Response Time:</strong> {{ ping.response_time | floatformat:3 }} seconds<br/>
 </p>
+<hr>
 
 
 {% endfor %}

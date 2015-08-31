@@ -2,7 +2,9 @@
 <h1>{{ object.title }}</h1>
 
 {% for endpoint in object.endpoints.active %}
-    <h2>{{ endpoint.title }}</h2>
+	<a href="{% url 'endpoint' endpoint.slug %}">
+	    <h2>{{ endpoint.title }}</h2>
+    </a>
     <p><strong>Status:</strong> {% if endpoint.is_up %}Up{% else %}Down{% endif %}<br/>
     <small>Last pinged: {{ endpoint.pings.latest.created_at | naturaltime }}</small>
     <hr/>
