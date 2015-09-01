@@ -1,0 +1,8 @@
+{% load humanize %}
+Good news! Your endpoint, {{ endpoint }} is back up as of {{ timestamp | naturaltime }}.
+
+The details:
+
+Disposition: {{ disposition }}
+Status Code: {{ response_code }}
+Response Time: {{ response_time }}

@@ -1,0 +1,20 @@
+{% extends "pinger/emails/base.html" %}
+{% load humanize %}
+
+{% block content %}
+<p>
+    We are writing to let you know that your endpoint, {{ endpoint }} is down
+    as of {{ timestamp | naturaltime }}.
+</p>
+
+<p>
+    The details:
+</p>
+<dl>
+<dt>Disposition:</dt>
+<dd>{{ disposition }}</dd>
+<dt>Status Code:</dt>
+<dd>{{ response_code }}</dd>
+<dt>Response Time:</dt>
+<dd>{{ response_time }}</dd>
+{% endblock %}
