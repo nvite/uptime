@@ -1,3 +1,55 @@
+/*
+ * @Open sans
+ * Uses google fonts api to load fonts - http://fonts.googleapis.com/css?family=Open+Sans:400,600,700,300
+ */
+
+@import url(https://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700);
+
 * {
-    font-family: helvetica, arial, sans-serif;
+	font-family: 'Open Sans', sans-serif;
+}
+body {
+	margin: 0;
+	background-color: #FFF;
+}
+a {
+	text-decoration: none;
+}
+.container {
+	padding: 40px 10%;
+}
+
+/* 
+ * --- HEADER ----
+ */
+header {
+	background-size: cover;
+    color: #fff;
+    padding: 48px 8% 80px;
+    background-color: #051428;
+    background-image: -webkit-linear-gradient(top, #152e50, #051428);
+    background-image: linear-gradient(to bottom, #152e50, #051428);
+}
+
+header h1 {
+    margin: 0;
+    font-weight: 300;
+}
+header h2 {
+    margin: 15px 0 0;
+}
+
+header .logo {
+    width: 48px;
+    height: 48px;
+    float: left;
+    margin-right: 10px;
+}
+header .logo polygon,
+header .logo path.ring {
+    fill: #ed174c;
+}
+
+header .last-updated .last-updated-date{
+	font-weight: 300;
 }
