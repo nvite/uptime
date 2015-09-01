@@ -1,0 +1,101 @@
+/*
+ * @Open sans
+ * Uses google fonts api to load fonts - http://fonts.googleapis.com/css?family=Open+Sans:400,600,700,300
+ */
+
+@import url(https://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700);
+
+* {
+	font-family: 'Open Sans', sans-serif;
+}
+body {
+	margin: 0;
+	background-color: #FFF;
+}
+a {
+	text-decoration: none;
+}
+.container {
+	padding: 40px 10%;
+}
+
+/* 
+ * --- HEADER ----
+ */
+header {
+	background-size: cover;
+    color: #fff;
+    padding: 48px 8% 80px;
+    background-color: #051428;
+    background-image: -webkit-linear-gradient(top, #152e50, #051428);
+    background-image: linear-gradient(to bottom, #152e50, #051428);
+}
+
+header h1 {
+    margin: 0;
+    font-weight: 300;
+}
+header h2 {
+    margin: 15px 0 0;
+}
+
+header .logo {
+    width: 48px;
+    height: 48px;
+    float: left;
+    margin-right: 10px;
+}
+header .logo polygon,
+header .logo path.ring {
+    fill: #ed174c;
+}
+
+header .last-updated .last-updated-date{
+	font-weight: 300;
+}
+
+
+/* 
+ * --- STATUS ROWS ----
+ */	
+.status-dot {
+	height: 6px;
+	width: 6px;
+	border-radius: 50%;
+	float: left;
+	margin: 7px 10px;
+}
+
+.status-row--up .status-dot {
+	border: 1px solid green;
+	background-color: green;
+}
+
+/* 
+ * --- STATUS ROWS ----
+ */
+.endpoint {
+	text-decoration: none;
+	background-color: green;
+	color: white;
+	padding: 10px;
+	margin: 5px 0;
+	border-radius: 1px;
+}
+.endpoint:hover {
+	background-color: #006D00;
+}
+.endpoint.endpoint--down {
+	background-color: #ed174c;
+}
+.endpoint.endpoint--down:hover {
+	background-color: #CA0E3D;
+}
+.endpoint__title {
+	font-weight: 600;
+}
+.endpoint__pinged-date {
+	float: right;
+    font-weight: 300;
+	text-transform: capitalize;
+}
