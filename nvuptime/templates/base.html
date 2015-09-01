@@ -1,0 +1,15 @@
+{% load staticfiles %}<!DOCTYPE html>
+<html>
+<head>
+    <title>{% block title %}nvite status{% endblock %}</title>
+    {% block styles %}
+    <link rel="stylesheet" type="text/css" href="{% static "css/style.css" %}">
+    {% endblock %}
+</head>
+<body>
+{% block content %}{% endblock %}
+{% block scripts %}
+    <script src="{% static "js/app.js" %}" type="text/javascript" charset="utf-8" async defer></script>
+{% endblock %}
+</body>
+</html>

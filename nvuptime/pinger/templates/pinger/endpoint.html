@@ -1,4 +1,17 @@
-{% load humanize %}
+{% extends "base.html" %}
+{% load humanize staticfiles %}
+{% block title %}{{ Details for object.title }} | {{ block.super }}{% endblock %}
+
+{% block styles %}
+{{ block.super }}
+<link rel="stylesheet" type="text/css" href="{% static "pinger/css/pinger.css" %}">
+{% endblock %}
+
+{% block scripts %}
+<script src="{% static "pinger/js/pinger.js" %}" type="text/javascript" charset="utf-8" async defer></script>
+{% endblock %}
+
+{% block content %}
 <h1>{{ object.title }}</h1>
 <p><strong>Status:</strong> {% if object.is_up %}Up{% else %}Down{% endif %}<br/>
 <small>Last pinged: {{ object.pings.latest.created_at | naturaltime }}</small>
@@ -9,6 +22,5 @@
 <strong>Response Code:</strong> {{ ping.response_code }}<br/>
 <strong>Response Time:</strong> {{ ping.response_time | floatformat:3 }} seconds<br/>
 </p>
-
-
 {% endfor %}
+{% endblock %}

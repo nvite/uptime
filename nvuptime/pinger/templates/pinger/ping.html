@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block title %}{{ object }} | {{ block.super }}`{% endblock %}
+
+{% block styles %}
+{{ block.super }}
+<link rel="stylesheet" type="text/css" href="{% static "pinger/css/pinger.css" %}">
+{% endblock %}
+
+{% block scripts %}
+<script src="{% static "pinger/js/pinger.js" %}" type="text/javascript" charset="utf-8" async defer></script>
+{% endblock %}
