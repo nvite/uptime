@@ -1,0 +1,8 @@
+{% load humanize %}
+We are writing to let you know that your endpoint, {{ endpoint }} is down as of {{ timestamp | naturaltime }}.
+
+The details:
+
+Disposition: {{ disposition }}
+Status Code: {{ response_code }}
+Response Time: {{ response_time }}

@@ -2,8 +2,9 @@ import threading
 
 from collections import Counter
 
-from django.core.mail import EmailMessage
+from django.core.mail import EmailMultiAlternatives
 from django.conf import settings
+from django.template.loader import render_to_string
 # from django.utils import timezone
 
 
@@ -36,8 +37,10 @@ class BasePostmarkEndpointEmailThread(threading.Thread):
         except AttributeError:
             pass
         if self.should_send:
-            EmailMessage(self.subject, self.body, self.sender, self.recipients,
-                         headers=headers).send()
+            msg = EmailMultiAlternatives(self.subject, self.text_body, self.sender,
+                                         self.recipients, headers=headers)
+            msg.attach_alternative(self.html_body, "text/html")
+            msg.send()
         else:
             print("Suppressing email because reasons. %s" % self.subject)
 
@@ -47,14 +50,8 @@ class EndpointDownEmailThread(BasePostmarkEndpointEmailThread):
         super(EndpointDownEmailThread, self).__init__(endpoint, **kwargs)
         self.headers = {'Reply-To': 'nerds@nvite.com', }
         self.subject = '[nvite monitoring] Ping failed for {endpoint}'.format(**self.data)
-        self.body = ("We are writing to let you know that your endpoint, {endpoint} "
-                     "is down as of {timestamp}. The details:"
-                     "\n\n"
-                     "Disposition: {disposition}\n"
-                     "Status Code: {response_code}\n"
-                     "Response Time: {response_time}\n"
-                     "Response (if any):\n"
-                     "{response}").format(**self.data)
+        self.text_body = render_to_string("pinger/emails/down.txt", context=self.data)
+        self.html_body = render_to_string("pinger/emails/down.html", context=self.data)
 
 
 class EndpointUpEmailThread(BasePostmarkEndpointEmailThread):
@@ -62,9 +59,5 @@ class EndpointUpEmailThread(BasePostmarkEndpointEmailThread):
         super(EndpointUpEmailThread, self).__init__(endpoint, **kwargs)
         self.headers = {'Reply-To': 'nerds@nvite.com', }
         self.subject = '[nvite monitoring] Ping succeeded for {endpoint}'.format(**self.data)
-        self.body = ("Good news! your endpoint, {endpoint} is back up as "
-                     "of {timestamp}. The details:"
-                     "\n\n"
-                     "Disposition: {disposition}\n"
-                     "Status Code {response_code}\n"
-                     "Response Time: {response_time}\n").format(**self.data)
+        self.text_body = render_to_string("pinger/emails/up.txt", context=self.data)
+        self.html_body = render_to_string("pinger/emails/up.html", context=self.data)

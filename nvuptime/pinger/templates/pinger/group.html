@@ -1,4 +1,18 @@
-{% load humanize %}
+{% extends "base.html" %}
+{% load humanize staticfiles %}
+
+{% block title %}{{ object.title }} | {{ block.super }}{% endblock %}
+
+{% block styles %}
+{{ block.super }}
+<link rel="stylesheet" type="text/css" href="{% static "pinger/css/pinger.css" %}">
+{% endblock %}
+
+{% block scripts %}
+<script src="{% static "pinger/js/pinger.js" %}" type="text/javascript" charset="utf-8" async defer></script>
+{% endblock %}
+
+{% block content %}
 <h1>{{ object.title }}</h1>
 
 {% for endpoint in object.endpoints.active %}
@@ -9,3 +23,4 @@
     <small>Last pinged: {{ endpoint.pings.latest.created_at | naturaltime }}</small>
     <hr/>
 {% endfor %}
+{% endblock %}
