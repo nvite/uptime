@@ -11,7 +11,7 @@
 
 .status-row--up .status-dot {
 	border: 1px solid green;
-	background-color: green;
+	background-color: #009400;
 }
 
 /* 
@@ -41,4 +41,9 @@
 	float: right;
     font-weight: 300;
 	text-transform: capitalize;
+}
+
+.status-row--down .status-dot {
+    background-color: #FF1010;
+    border: 1px solid red;
 }
