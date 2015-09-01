@@ -22,7 +22,7 @@ urlpatterns = [
         name='group'),
     url(r'^endpoints/(?P<slug>[a-z0-9]+)/$', views.EndpointDetail.as_view(),
         name='endpoint'),
-    url(r'^pings/(?P<id>[0-9]+)/$', views.PingDetail.as_view(),
+    url(r'^pings/(?P<pk>[0-9]+)/$', views.PingDetail.as_view(),
         name='ping'),
     url(r'^$', views.GroupDetail.as_view(), {'slug': 'public'}, name='public'),
 ]
