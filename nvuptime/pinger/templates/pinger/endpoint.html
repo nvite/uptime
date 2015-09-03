@@ -31,11 +31,11 @@
 		    <span class="endpoint-cell__subhead">{{ object.pings.latest.created_at | naturaltime }}</span>
 	    </div>
 	    <div class="endpoint-cell">
-		    <span>{{ object.success_rate|floatformat:2 }}</span><br>
+		    <span>{% widthratio object.success_rate 1 100 %}%</span><br>
 		    <span class="endpoint-cell__subhead">Average Uptime</span>
 	    </div>
 	    <div class="endpoint-cell">
-		    <span class="">{{ object.success_rate_today|floatformat:2 }}</span><br>
+		    <span class="">{% widthratio object.success_rate_today 1 100 %}%</span><br>
 		    <span class="endpoint-cell__subhead">Uptime Today</span>
 	    </div>
     </div>

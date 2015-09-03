@@ -1,18 +1,13 @@
-{% extends "base.html" %}
-{% load humanize staticfiles %}
-
-{% block title %}{{ object.title }} | {{ block.super }}{% endblock %}
-
-{% block styles %}
-{{ block.super }}
-<link rel="stylesheet" type="text/css" href="{% static "pinger/css/pinger.css" %}">
-{% endblock %}
-
-{% block scripts %}
-<script src="{% static "pinger/js/pinger.js" %}" type="text/javascript" charset="utf-8" async defer></script>
-{% endblock %}
-
-{% block content %}
+{% load staticfiles %}<!DOCTYPE html>
+<html>
+<head>
+    <title>404</title>
+    {% block styles %}
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="{% static "css/style.css" %}">
+    {% endblock %}
+</head>
+<body>
 
 <header class="container">
 	<div class="logo">
@@ -21,29 +16,8 @@
 	    </a>
     </div>
 	<h1>Status</h1>
-	{% if object.title != 'Public' %}<h2 class="">{{ object.title }}</h3>{% endif%}
+	<h3>Page Not Found</h3>
 </header>
 
-<div class="container container--endpoints">
-<h3>{% if object.title == 'Public' %}Endpoints{% else %}Event Pages{% endif %}:</h3>
-{% for endpoint in object.endpoints.active %}
-	<a href="{% url 'endpoint' endpoint.slug %}">
-		<div class="endpoint endpoint--{% if endpoint.is_up %}up{% else %}down{% endif %}">
-			<i class="endpoint-cell endpoint-cell--icon fa fa-{% if endpoint.is_up %}check-circle{% else %}times-circle{% endif %}"></i>
-			<div class="endpoint-cell endpoint-cell--title">
-			    <span class="endpoint__title">{{ endpoint.title }} is {% if endpoint.is_up %}up{% else %}down{% endif %}</span><br>
-			    <span class="endpoint-cell__subhead">{{ endpoint.pings.latest.created_at | naturaltime }}</span>
-		    </div>
-		    <div class="endpoint-cell">
-			    <span>{% widthratio endpoint.success_rate 1 100 %}%</span><br>
-			    <span class="endpoint-cell__subhead">Average Uptime</span>
-		    </div>
-		    <div class="endpoint-cell">
-			    <span class="">{% widthratio endpoint.success_rate_today 1 100 %}%</span><br>
-			    <span class="endpoint-cell__subhead">Uptime Today</span>
-		    </div>
-	    </div>
-    </a>
-{% endfor %}
-</div>
-{% endblock %}
+</body>
+</html>
