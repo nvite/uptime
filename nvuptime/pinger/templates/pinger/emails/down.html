@@ -3,20 +3,20 @@
 
 {% block content %}
 <tr>
-	<td align="center" colspan="3" style="-webkit-border-top-right-radius:8px;-webkit-border-top-left-radius:8px;-moz-border-radius-topright:8px;-moz-border-radius-topleft:8px;border-top-left-radius:8px;border-top-right-radius:8px;font-family:helvetica,arial,sans-serif;text-align:center;" valign="top">
+	<td align="center" colspan="3" style="-webkit-border-top-right-radius:8px;-webkit-border-top-left-radius:8px;-moz-border-radius-topright:8px;-moz-border-radius-topleft:8px;border-top-left-radius:8px;border-top-right-radius:8px;font-family:helvetica,arial,sans-serif;text-align:center;padding-top:0;" valign="top">
 		<span class="sg-image" style="float: none; display: block; text-align: center;">
-			<img alt="Uh Oh!" height="100" src="https://ci3.googleusercontent.com/proxy/SpmkkMqkFbCSQ9QCbqvYUu_XNFnuU0l111FED2qQ65fObLPQMwWllQ_ZkJvU1RTXOzcym3_o_Sb7dUIZCg1ZyT-Ag6VRZmcTO_ZSwZBz7w51LKw=s0-d-e1-ft#https://a-nvite.global.ssl.fastly.net/~emails/icon-invite.gif" style="width: 100px; height: 100px;" width="100" />
+			<img alt="nvite-logo" height="100" src="https://s3.amazonaws.com/nvite-assets/~client/press/press-red-mark.png" style="width: auto; height: 100px;" width="auto" />
 		</span>
-		<h1 style="color:#999999 !important;font-size: 15px;margin: 0;margin-top:10px;margin-bottom: 15px;font-weight: 500;">Uh Oh!</h1>
 
-		<p style="color:#6f6f6f;font-size:17px;margin-top:0;text-align:center;">Something went wrong. We're writing to let you know that the following endpoint went down at <b>{{ timestamp }}</b>:</p>
-		<h4 style="font-size:18px;margin-top:0;text-align:center;"><a href="http://www.nvite.com" style="text-decoration:none;color:#ed174c;">{{ endpoint }}</a></h4>
-		<br style="display:block;margin-top:25px;content:'';" />
-		<p style="text-align:left; padding: 20px;">
-			<u>The details:</u><br>
-			<b>Error: </b>{{ disposition }}<br>
-			<b>Status Code: </b>{{ response_code }}<br>
-			<b>Response Time: </b>{{ response_time }}<br>
+		<p style="color:#6f6f6f;font-size:17px;margin-top:0;text-align:center;">We're writing to let you know that the following site went down at <b>{{ timestamp }}</b>:</p>
+		<h4 style="font-size:18px;margin-top:0;text-align:center;"><a href="{{ link }}" style="text-decoration:none;color:#ed174c;">{{ endpoint }}</a></h4>
+
+		<p style="color:#6f6f6f;font-size:17px;margin-top:0;text-align:center;">We are aware of the situation and will reach out as soon as the site is back up. If you have any questions please contact your VIP Account Support Contact:</p>
+		
+		<p style="color:#6f6f6f;font-size:17px;margin-top:0;text-align:center;">
+			Martin Ringlein<br>
+			<a href="mailto:martin@nvite.com">martin@nvite.com</a><br>
+			<a href="tel:415-787-2025">415-787-2025</a>
 		</p>
 	</td>
 </tr>

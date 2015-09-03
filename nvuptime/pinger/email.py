@@ -20,6 +20,7 @@ class BasePostmarkEndpointEmailThread(threading.Thread):
         self.data['endpoint'] = self.endpoint.__str__()
         self.data['disposition'] = self.ping.get_disposition_display()
         self.data['timestamp'] = self.ping.created_at
+        self.data['link'] = "http://localhost:8000/endpoints/" + self.endpoint.slug
 
     @property
     def should_send(self):
