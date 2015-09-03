@@ -6,7 +6,8 @@
 @import url(https://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700);
 
 * {
-	font-family: 'Open Sans', sans-serif;
+    font-family:'FontAwesome';
+    font-family: 'Open Sans', sans-serif;
 }
 body {
 	margin: 0;
@@ -16,7 +17,7 @@ a {
 	text-decoration: none;
 }
 .container {
-	padding: 40px 10%;
+	padding: 40px 10% 20px;
 }
 
 /* 
@@ -32,8 +33,9 @@ header {
 }
 
 header h1 {
-    margin: 0;
+    margin: 0 0 10px;
     font-weight: 300;
+    text-align: center;
 }
 header h2 {
     margin: 15px 0 0;
@@ -42,8 +44,7 @@ header h2 {
 header .logo {
     width: 48px;
     height: 48px;
-    float: left;
-    margin-right: 10px;
+    margin: auto;
 }
 header .logo polygon,
 header .logo path.ring {

@@ -17,7 +17,7 @@ class EndpointDetail(DetailView):
 
     def get_context_data(self, **kwargs):
         ctx = super(EndpointDetail, self).get_context_data(**kwargs)
-        ctx['latest_pings'] = ctx['object'].pings.all().order_by('-created_at')[:10]
+        ctx['latest_pings'] = ctx['object'].pings.all().order_by('-created_at')[:15]
         return ctx
 
 

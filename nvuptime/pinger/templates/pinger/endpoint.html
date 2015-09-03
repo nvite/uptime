@@ -18,21 +18,41 @@
 	    </a>
     </div>
 	<h1>Status</h1>
-	<h2 class="">{{ object.title }}</h3>
-	<span class="status">Status: {% if object.is_up %}Up{% else %}Down{% endif %}</span><br/>
-	<span class="status">Uptime: {{ object.success_rate_today|floatformat:2 }}</span><br/>
-	<span class="last-updated">Last Check: <span class="last-updated-date">{{ object.pings.latest.created_at }}</span></span>
+	<!-- <span class="status">Uptime: {{ object.success_rate_today|floatformat:2 }}</span><br/>
+	<span class="last-updated">Last Check: <span class="last-updated-date">{{ object.pings.latest.created_at }}</span></span> -->
 </header>
 
-<div class="container">
-	<h3>Latest Pings:</h3>
-	{% for ping in latest_pings %}
-	<div class="status-row status-row--{% if ping.disposition == 0 %}up{% else %}down{% endif %}">
-		<div class="status-dot"></div>
-		<span class="status-text">{% if ping.disposition == 0 %}UP{% else %}DOWN{% endif %}</span> - {{ ping.created_at }}
-	</div>
-	</p>
-	{% endfor %}
+<div class="container container--pings">
+
+	<div class="endpoint endpoint-pings-header endpoint--{% if object.is_up %}up{% else %}down{% endif %}">
+		<i class="endpoint-cell endpoint-cell--icon fa fa-{% if object.is_up %}check-circle{% else %}times-circle{% endif %}"></i>
+		<div class="endpoint-cell endpoint-cell--title">
+		    <span class="endpoint__title">{{ object.title }} is {% if object.is_up %}up{% else %}down{% endif %}</span><br>
+		    <span class="endpoint-cell__subhead">{{ object.pings.latest.created_at | naturaltime }}</span>
+	    </div>
+	    <div class="endpoint-cell">
+		    <span>{{ object.success_rate|floatformat:2 }}</span><br>
+		    <span class="endpoint-cell__subhead">Average Uptime</span>
+	    </div>
+	    <div class="endpoint-cell">
+		    <span class="">{{ object.success_rate_today|floatformat:2 }}</span><br>
+		    <span class="endpoint-cell__subhead">Uptime Today</span>
+	    </div>
+    </div>
+
+	<table class="ping-list">
+		<tr>
+			<td colspan="2"><b>Latest Pings:</b></td>
+			<td class="ping-cell ping-cell--response-time"><b>Response Time</b></td>
+		</tr>
+		{% for ping in latest_pings %}
+		<tr class="ping ping--{% if ping.disposition == 0 %}up{% else %}down{% endif %}">
+			<td class="ping-cell ping-cell--icon"><i class="fa fa-{% if ping.disposition == 0 %}check-circle{% else %}times-circle{% endif %}"></i></td>
+			<td class="ping-cell ping-cell--date">{{ ping.created_at|date:"D d M Y" }} {{ ping.created_at|time:"g:i a" }}</td>
+			<td class="ping-cell ping-cell--response-time">{{ ping.response_time|floatformat:3 }} seconds</td>
+		</tr>
+		{% endfor %}
+	</table>
 </div>
 
 {% endblock %}

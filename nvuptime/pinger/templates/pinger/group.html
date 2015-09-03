@@ -21,17 +21,15 @@
 	    </a>
     </div>
 	<h1>Status</h1>
-	<h2 class="">{{ object.title }}</h3>
+	{% if object.title != 'Public' %}<h2 class="">{{ object.title }}</h3>{% endif%}
 </header>
 
-<div class="container">
+<div class="container container--endpoints">
 <h3>{% if object.title == 'Public' %}Endpoints{% else %}Event Pages{% endif %}:</h3>
 {% for endpoint in object.endpoints.active %}
 	<a href="{% url 'endpoint' endpoint.slug %}">
 		<div class="endpoint endpoint--{% if endpoint.is_up %}up{% else %}down{% endif %}">
-			<div class="endpoint-cell endpoint-cell--icon">
-			    
-		    </div>
+			<i class="endpoint-cell endpoint-cell--icon fa fa-{% if endpoint.is_up %}check-circle{% else %}times-circle{% endif %}"></i>
 			<div class="endpoint-cell endpoint-cell--title">
 			    <span class="endpoint__title">{{ endpoint.title }} is {% if endpoint.is_up %}up{% else %}down{% endif %}</span><br>
 			    <span class="endpoint-cell__subhead">{{ endpoint.pings.latest.created_at | naturaltime }}</span>

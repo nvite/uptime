@@ -15,13 +15,17 @@
 }
 
 /* 
- * --- STATUS ROWS ----
+ * --- GROUP STATUS ROWS ----
  */
+
+.container--endpoints {
+    padding-top: 10px;
+}
+
 .endpoint {
 	text-decoration: none;
-	/* background-color: green; */
 	color: #222;
-	padding: 20px 10px;
+	padding: 20px 0;
 	border-radius: 1px;
 }
 .endpoint:hover {
@@ -76,13 +80,74 @@ span.endpoint-cell__subhead {
 }
 
 .endpoint-cell.endpoint-cell--icon {
-    width: 20px;
+    width: 30px;
     float: left;
-    height: 2.2em;
-    background-color: green;
     margin-right: 10px;
+    font-size: 2.2em;
+    color: green;
 }
 
 .endpoint--down .endpoint-cell.endpoint-cell--icon {
-    background-color: #ed174c;
+    color: #ed174c;
+}
+
+
+/* 
+ * --- ENDPOINT STATUS ROWS ----
+ */
+
+.container--pings {
+    padding-top: 10px;
+}
+
+.endpoint-pings-header {
+    margin-bottom: 20px;
+}
+
+.ping-cell.ping-cell--icon {
+    color: green;
+}
+
+.ping--down .ping-cell.ping-cell--icon {
+    color: #ed174c;
+}
+
+.ping-cell--response-time {
+    text-align: right;
+}
+
+tr.ping {
+    width: 100%;
+}
+
+
+table.ping-list {
+    width: 100%;
+    border-spacing: 0;
+}
+
+table.ping-list td {
+    border: 1px solid #E6E6E6;
+    border-right: 0;
+    border-left: 0;
+    border-top: 0;
+    padding: 9px 0;
+}
+
+table.ping-list tr:first-child td {
+    border-bottom: 0;
+}
+
+table.ping-list tr:last-child td {
+    border-bottom: 0;
+}
+
+span.endpoint-name {
+    font-size: 2em;
+    font-weight: 600;
+}
+
+span.status {
+    font-style: italic;
+    float: right;
 }
