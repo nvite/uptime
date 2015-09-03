@@ -29,8 +29,21 @@
 {% for endpoint in object.endpoints.active %}
 	<a href="{% url 'endpoint' endpoint.slug %}">
 		<div class="endpoint endpoint--{% if endpoint.is_up %}up{% else %}down{% endif %}">
-		    <span class="endpoint__title">{{ endpoint.title }}</span>
-		    <span class="endpoint__pinged-date">{{ endpoint.pings.latest.created_at }}</span>
+			<div class="endpoint-cell endpoint-cell--icon">
+			    
+		    </div>
+			<div class="endpoint-cell endpoint-cell--title">
+			    <span class="endpoint__title">{{ endpoint.title }} is {% if endpoint.is_up %}up{% else %}down{% endif %}</span><br>
+			    <span class="endpoint-cell__subhead">{{ endpoint.pings.latest.created_at | naturaltime }}</span>
+		    </div>
+		    <div class="endpoint-cell">
+			    <span>{{ endpoint.success_rate|floatformat:2 }}</span><br>
+			    <span class="endpoint-cell__subhead">Average Uptime</span>
+		    </div>
+		    <div class="endpoint-cell">
+			    <span class="">{{ endpoint.success_rate_today|floatformat:2 }}</span><br>
+			    <span class="endpoint-cell__subhead">Uptime Today</span>
+		    </div>
 	    </div>
     </a>
 {% endfor %}

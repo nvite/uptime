@@ -19,20 +19,20 @@
  */
 .endpoint {
 	text-decoration: none;
-	background-color: green;
-	color: white;
-	padding: 10px;
-	margin: 5px 0;
+	/* background-color: green; */
+	color: #222;
+	padding: 20px 10px;
 	border-radius: 1px;
 }
 .endpoint:hover {
-	background-color: #006D00;
+	background-color: rgb(252, 252, 252);
+	cursor: pointer;
 }
 .endpoint.endpoint--down {
-	background-color: #ed174c;
+	/* background-color: #ed174c; */
 }
 .endpoint.endpoint--down:hover {
-	background-color: #CA0E3D;
+	/* background-color: #CA0E3D; */
 }
 .endpoint__title {
 	font-weight: 600;
@@ -46,4 +46,43 @@
 .status-row--down .status-dot {
     background-color: #FF1010;
     border: 1px solid red;
+}
+
+.endpoint {
+    display: table;
+    width: 100%;
+    border-bottom: 1px solid rgb(236, 236, 236);
+}
+
+.endpoint-cell.endpoint-cell--title {}
+
+.endpoint-cell {
+    display: table-cell;
+    width: 20%;
+    float: right;
+    text-align: right;
+    line-height: 1.1em;
+}
+
+span.endpoint-cell__subhead {
+    font-weight: 300;
+    font-size: 0.8em;
+}
+
+.endpoint-cell.endpoint-cell--title {
+    float: left;
+    width: 50%;
+    text-align: left;
+}
+
+.endpoint-cell.endpoint-cell--icon {
+    width: 20px;
+    float: left;
+    height: 2.2em;
+    background-color: green;
+    margin-right: 10px;
+}
+
+.endpoint--down .endpoint-cell.endpoint-cell--icon {
+    background-color: #ed174c;
 }

@@ -20,6 +20,7 @@
 	<h1>Status</h1>
 	<h2 class="">{{ object.title }}</h3>
 	<span class="status">Status: {% if object.is_up %}Up{% else %}Down{% endif %}</span><br/>
+	<span class="status">Uptime: {{ object.success_rate_today|floatformat:2 }}</span><br/>
 	<span class="last-updated">Last Check: <span class="last-updated-date">{{ object.pings.latest.created_at }}</span></span>
 </header>
 

@@ -92,6 +92,14 @@ class Endpoint(DirtyFieldsMixin, models.Model):
             pass
 
     @property
+    def success_rate_today(self):
+        try:
+            today_min = datetime.datetime.combine(datetime.date.today(), datetime.time.min)
+            return self.pings.passed().exclude(created_at__lt=today_min).count() / self.pings.exclude(created_at__lt=today_min).count()
+        except:
+            pass
+
+    @property
     def avg_response_time(self):
         try:
             return self.pings.passed().aggregate(
