@@ -102,7 +102,7 @@ class Endpoint(DirtyFieldsMixin, models.Model):
             if pings_today == 0:
                 success_rate = 1
             else:
-                success_rate = success_pings_today / pings_last_week
+                success_rate = success_pings_today / pings_today
             
             return success_rate
 
