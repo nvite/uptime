@@ -10,8 +10,9 @@
     font-family: 'Open Sans', sans-serif;
 }
 body {
-	margin: 0;
-	background-color: #FFF;
+    margin: 0;
+    background-color: #FFF;
+    font-size: 18px;
 }
 a {
 	text-decoration: none;

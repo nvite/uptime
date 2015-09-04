@@ -58,14 +58,14 @@
     border-bottom: 1px solid rgb(236, 236, 236);
 }
 
-.endpoint-cell.endpoint-cell--title {}
+.endpoint-cell span {font-weight: bold;}
 
 .endpoint-cell {
     display: table-cell;
     width: 20%;
     float: right;
     text-align: right;
-    line-height: 1.1em;
+    line-height: 1.4em;
 }
 
 span.endpoint-cell__subhead {
@@ -85,6 +85,7 @@ span.endpoint-cell__subhead {
     margin-right: 10px;
     font-size: 2.2em;
     color: green;
+    line-height: 1em;
 }
 
 .endpoint--down .endpoint-cell.endpoint-cell--icon {
@@ -131,7 +132,7 @@ table.ping-list td {
     border-right: 0;
     border-left: 0;
     border-top: 0;
-    padding: 9px 0;
+    padding: 12px 0;
 }
 
 table.ping-list tr:first-child td {
