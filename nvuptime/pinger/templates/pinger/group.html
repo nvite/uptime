@@ -21,11 +21,10 @@
 	    </a>
     </div>
 	<h1>Status</h1>
-	{% if object.title != 'Public' %}<h2 class="">{{ object.title }}</h3>{% endif%}
 </header>
 
 <div class="container container--endpoints">
-<h3>{% if object.title == 'Public' %}Endpoints{% else %}Event Pages{% endif %}:</h3>
+<h3>{% if object.title == 'Public' %}nvite pages{% else %}Event pages{% endif %}:</h3>
 {% for endpoint in object.endpoints.active %}
 	<a href="{% url 'endpoint' endpoint.slug %}">
 		<div class="endpoint endpoint--{% if endpoint.is_up %}up{% else %}down{% endif %}">
@@ -37,6 +36,10 @@
 		    <div class="endpoint-cell">
 			    <span>{% widthratio endpoint.success_rate 1 100 %}%</span><br>
 			    <span class="endpoint-cell__subhead">Average Uptime</span>
+		    </div>
+		    <div class="endpoint-cell">
+			    <span>{% widthratio endpoint.success_rate_last_week 1 100 %}%</span><br>
+			    <span class="endpoint-cell__subhead">Uptime Last 7 days</span>
 		    </div>
 		    <div class="endpoint-cell">
 			    <span class="">{% widthratio endpoint.success_rate_today 1 100 %}%</span><br>

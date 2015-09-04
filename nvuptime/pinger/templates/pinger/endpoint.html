@@ -35,6 +35,10 @@
 		    <span class="endpoint-cell__subhead">Average Uptime</span>
 	    </div>
 	    <div class="endpoint-cell">
+		    <span>{% widthratio object.success_rate_last_week 1 100 %}%</span><br>
+		    <span class="endpoint-cell__subhead">Uptime Last 7 days</span>
+	    </div>
+	    <div class="endpoint-cell">
 		    <span class="">{% widthratio object.success_rate_today 1 100 %}%</span><br>
 		    <span class="endpoint-cell__subhead">Uptime Today</span>
 	    </div>

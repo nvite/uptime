@@ -112,11 +112,11 @@ class Endpoint(DirtyFieldsMixin, models.Model):
     @property
     def success_rate_last_week(self):
         try:
-            week_ago = datetime.now()-timedelta(days=7)
+            week_ago = timezone.now()-timedelta(days=7)
             pings_last_week = self.pings.exclude(created_at__lt=week_ago).count()
             success_pings_last_week = self.pings.passed().exclude(created_at__lt=week_ago).count()
             if pings_last_week == 0:
-                success_rate = 0
+                success_rate = 1
             else:
                 success_rate = success_pings_last_week / pings_last_week
             
