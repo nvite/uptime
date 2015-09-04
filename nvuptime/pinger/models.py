@@ -3,6 +3,8 @@ import datetime
 import pytz
 
 from django.db import models
+from django.utils import timezone
+from datetime import timedelta
 from django.db.models import Avg
 from django.contrib.auth.models import User
 from django.template.defaultfilters import slugify
@@ -95,7 +97,31 @@ class Endpoint(DirtyFieldsMixin, models.Model):
     def success_rate_today(self):
         try:
             today_min = datetime.datetime.combine(datetime.date.today(), datetime.time.min)
-            return self.pings.passed().exclude(created_at__lt=today_min).count() / self.pings.exclude(created_at__lt=today_min).count()
+            pings_today = self.pings.exclude(created_at__lt=today_min).count()
+            success_pings_today = self.pings.passed().exclude(created_at__lt=today_min).count()
+            if pings_today == 0:
+                success_rate = 1
+            else:
+                success_rate = success_pings_today / pings_last_week
+            
+            return success_rate
+
+        except:
+            pass
+
+    @property
+    def success_rate_last_week(self):
+        try:
+            week_ago = datetime.now()-timedelta(days=7)
+            pings_last_week = self.pings.exclude(created_at__lt=week_ago).count()
+            success_pings_last_week = self.pings.passed().exclude(created_at__lt=week_ago).count()
+            if pings_last_week == 0:
+                success_rate = 0
+            else:
+                success_rate = success_pings_last_week / pings_last_week
+            
+            return success_rate
+
         except:
             pass
 
