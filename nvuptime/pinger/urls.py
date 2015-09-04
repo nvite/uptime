@@ -20,7 +20,7 @@ from nvuptime.pinger import views
 urlpatterns = [
     url(r'^groups/(?P<slug>[-a-z0-9]+)/$', views.GroupDetail.as_view(),
         name='group'),
-    url(r'^endpoints/(?P<slug>[a-z0-9]+)/$', views.EndpointDetail.as_view(),
+    url(r'^endpoints/(?P<slug>[-a-z0-9]+)/$', views.EndpointDetail.as_view(),
         name='endpoint'),
     url(r'^pings/(?P<pk>[0-9]+)/$', views.PingDetail.as_view(),
         name='ping'),
