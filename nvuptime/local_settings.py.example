@@ -1,6 +1,6 @@
 DEBUG = True
 ADMINS = (
-    ('name', 'email')
+    ('name', 'email'),
 )
 SECRET_KEY = ''
 
