@@ -1,2 +1,2 @@
 web: gunicorn nvuptime.wsgi
-worker: ./manage.py celery worker --beat --concurrency=2
+worker: ./manage.py celery worker --beat
