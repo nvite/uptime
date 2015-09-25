@@ -41,7 +41,7 @@
         {% for ping in latest_pings %}
         <tr class="ping ping--{% if ping.disposition == 0 %}up{% else %}down{% endif %}">
             <td class="ping-cell ping-cell--icon"><i class="fa fa-{% if ping.disposition == 0 %}check-circle{% else %}times-circle{% endif %}"></i></td>
-            <td class="ping-cell ping-cell--date">{{ ping.created_at|date:"D d M Y" }} {{ ping.created_at|time:"g:i a" }}</td>
+            <td class="ping-cell ping-cell--date">{{ ping.created_at|date:"r" }}</td>
             <td class="ping-cell ping-cell--response-time">{{ ping.response_time|floatformat:3 }} seconds</td>
         </tr>
         {% endfor %}
