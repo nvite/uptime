@@ -43,7 +43,7 @@ admin.site.register(Group, GroupAdmin)
 
 class OutageUpdateInline(admin.StackedInline):
     model = OutageUpdate
-    extra = 1
+    extra = 0
     readonly_fields = ('created_at', )
 
 
