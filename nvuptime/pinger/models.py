@@ -3,6 +3,7 @@ import datetime
 import pytz
 
 from django.db import models
+from django.db.models import signals, Q
 from django.utils import timezone
 from datetime import timedelta
 from django.db.models import Avg
@@ -33,6 +34,12 @@ OUTAGE_STATUS_CHOICES = (
     (WATCHING, 'Watching'),
     (RESOLVED, 'Resolved'),
 )
+
+OUTAGE_BANNER_TIMEFRAME = timedelta(hours=6)
+
+
+def get_recent_outage_threshold():
+    return datetime.datetime.utcnow().replace(tzinfo=pytz.utc) - OUTAGE_BANNER_TIMEFRAME
 
 
 class GroupManager(models.Manager):
@@ -213,7 +220,15 @@ class OutageManager(models.Manager):
     use_for_related_fields = True
 
     def active(qset):
-        return qset.filter(end=None)
+        return qset.filter(end=None).select_related()
+
+    def recent(qset):
+        threshold = get_recent_outage_threshold()
+        return qset.filter(Q(end=None) | Q(end__gt=threshold)).select_related()
+
+    def most_recent(qset):
+        threshold = get_recent_outage_threshold()
+        return qset.filter(Q(end=None) | Q(end__gt=threshold)).select_related()[0]
 
     def already_down(qset):
         return qset.filter(end=None).count() > 0
@@ -231,7 +246,7 @@ class Outage(models.Model):
 
     def __str__(self):
         data = self.__dict__
-        data['duration_minutes'] = int(self.duration.total_seconds() / 60)
+        data['duration_minutes'] = self.duration_in_minutes
         return "{title} ({duration_minutes}m)".format(**data)
 
     @property
@@ -240,8 +255,19 @@ class Outage(models.Model):
         return end - self.start
 
     @property
+    def duration_in_minutes(self):
+        return int(self.duration.total_seconds() / 60)
+
+    @property
     def is_active(self):
         return self.end is None
+
+
+def ensure_initial_update(sender, instance, created, **kwargs):
+    if created:
+        instance.updates.create(status=WATCHING)
+
+signals.post_save.connect(ensure_initial_update, sender=Outage)
 
 
 class OutageUpdate(models.Model):
