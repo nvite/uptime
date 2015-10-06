@@ -24,6 +24,16 @@ DISPOSITION_CHOICES = (
     (ERROR, 'Failed'),
 )
 
+OUTAGE_THRESHOLD = 3
+DISRUPTION = 0
+WATCHING = 1
+RESOLVED = 2
+OUTAGE_STATUS_CHOICES = (
+    (DISRUPTION, 'Disruption'),
+    (WATCHING, 'Watching'),
+    (RESOLVED, 'Resolved'),
+)
+
 
 class GroupManager(models.Manager):
     use_for_related_fields = True
@@ -103,7 +113,7 @@ class Endpoint(DirtyFieldsMixin, models.Model):
                 success_rate = 1
             else:
                 success_rate = success_pings_today / pings_today
-            
+
             return success_rate
 
         except:
@@ -119,7 +129,7 @@ class Endpoint(DirtyFieldsMixin, models.Model):
                 success_rate = 1
             else:
                 success_rate = success_pings_last_week / pings_last_week
-            
+
             return success_rate
 
         except:
@@ -197,3 +207,55 @@ class Ping(models.Model):
         data['endpoint'] = self.endpoint.__str__()
         data['disposition'] = self.get_disposition_display()
         return "{endpoint}: {disposition}@{created_at}".format(**data)
+
+
+class OutageManager(models.Manager):
+    use_for_related_fields = True
+
+    def active(qset):
+        return qset.filter(end=None)
+
+    def already_down(qset):
+        return qset.filter(end=None).count() > 0
+
+
+class Outage(models.Model):
+    title = models.CharField(max_length=255, default='Failed Automated System Checks')
+    start = models.DateTimeField(auto_now_add=True)
+    end = models.DateTimeField(blank=True, null=True)
+
+    objects = OutageManager()
+
+    class Meta:
+        ordering = ('-start', )
+
+    def __str__(self):
+        data = self.__dict__
+        data['duration_minutes'] = int(self.duration.total_seconds() / 60)
+        return "{title} ({duration_minutes}m)".format(**data)
+
+    @property
+    def duration(self):
+        end = self.end or datetime.datetime.utcnow().replace(tzinfo=pytz.utc)
+        return end - self.start
+
+    @property
+    def is_active(self):
+        return self.end is None
+
+
+class OutageUpdate(models.Model):
+    created_at = models.DateTimeField(auto_now_add=True)
+    status = models.SmallIntegerField(db_index=True,
+                                      choices=OUTAGE_STATUS_CHOICES)
+    text = models.TextField(default='We are actively investigating a service disruption and will post more information when available.')
+    outage = models.ForeignKey(Outage, related_name='updates')
+
+    class Meta:
+        ordering = ('-created_at', )
+
+    def __str__(self):
+        data = self.__dict__
+        data['outage'] = self.outage.__str__()
+        data['status'] = self.get_status_display()
+        return "{created_at} {outage} updated to {status}: {text}".format(**data)

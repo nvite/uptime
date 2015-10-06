@@ -1,5 +1,5 @@
 from django.contrib import admin
-from nvuptime.pinger.models import Group, Endpoint, Ping
+from nvuptime.pinger.models import Group, Endpoint, Ping, Outage, OutageUpdate
 
 
 class PingAdmin(admin.ModelAdmin):
@@ -39,3 +39,17 @@ class GroupAdmin(admin.ModelAdmin):
     prepopulated_fields = {'slug': ('title', )}
 
 admin.site.register(Group, GroupAdmin)
+
+
+class OutageUpdateInline(admin.StackedInline):
+    model = OutageUpdate
+    extra = 1
+    readonly_fields = ('created_at', )
+
+
+class OutageAdmin(admin.ModelAdmin):
+    list_display = ('title', 'start', 'end', 'duration', 'is_active', )
+    date_hierarchy = 'start'
+    inlines = [OutageUpdateInline]
+
+admin.site.register(Outage, OutageAdmin)

@@ -6,7 +6,9 @@ import threading
 from celery import shared_task
 import requests
 
-from nvuptime.pinger.models import (Group, Ping,
+from django.conf import settings
+
+from nvuptime.pinger.models import (Group, Ping, Outage,
                                     PASS, TIMEOUT, MISMATCH, ERROR)
 
 
@@ -65,6 +67,14 @@ class GroupPingerThread(threading.Thread):
             ping = Ping(**data)
             ping.save()
             endpoint.save()
+
+            # If an endpoint in the public group has been down for n times
+            # we should automatically create an 'outage' event
+            if (endpoint.is_up is False and
+                endpoint.group.slug is 'public' and
+                len([ping for ping in endpoint.pings.all()[0, settings.OUTAGE_THRESHOLD]
+                          if ping.disposition == PASS]) is 0):
+                Outage.objects.get_or_create(end=None)
 
 
 @shared_task

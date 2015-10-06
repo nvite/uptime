@@ -127,6 +127,10 @@ CELERYBEAT_SCHEDULER = "djcelery.schedulers.DatabaseScheduler"
 BROKER_URL = 'django://'
 
 
+# Default Outage threshold
+# The number of failed pings on a public endpoint before reporting an outage
+OUTAGE_THRESHOLD = 3
+
 try:
     from herokal.settings import *
 except ImportError as e:
