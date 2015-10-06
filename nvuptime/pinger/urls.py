@@ -24,5 +24,7 @@ urlpatterns = [
         name='endpoint'),
     url(r'^pings/(?P<pk>[0-9]+)/$', views.PingDetail.as_view(),
         name='ping'),
+    url(r'^outages/(?P<pk>[0-9]+)/$', views.OutageDetail.as_view(),
+        name='outage'),
     url(r'^$', views.GroupDetail.as_view(), {'slug': 'public'}, name='public'),
 ]

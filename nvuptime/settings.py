@@ -42,7 +42,9 @@ INSTALLED_APPS = (
     'django.contrib.humanize',
     'kombu.transport.django',
     'djcelery',
+    'debug_toolbar',
     'herokal',
+    'markdown_deux',
     'nvuptime.pinger',
 )
 
@@ -72,6 +74,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'nvuptime.pinger.context_processors.outages',
             ],
         },
     },

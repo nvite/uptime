@@ -13,6 +13,13 @@
 {% endblock %}
 
 {% block content %}
+{% if recent_outage %}
+<header class="{{ recent_outage.updates.first.get_status_display | lower }}">
+    <p>
+        <a href="{% url 'outage' pk=recent_outage.id %}"><strong>Service Disruption:</strong> {{ recent_outage.title }} &raquo; <span class="duration">{{ recent_outage.duration_in_minutes }}m</span></a>
+    </p>
+</header>
+{% endif %}
 <div class="container container--endpoints">
 <h3>{% if object.title == 'Public' %}nvite systems{% else %}Event pages{% endif %}:</h3>
 {% for endpoint in object.endpoints.active %}

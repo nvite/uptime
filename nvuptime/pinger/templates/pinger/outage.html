@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% load humanize staticfiles markdown_deux_tags %}
+
+{% block title %}{{ object.title }} | {{ block.super }}{% endblock %}
+
+{% block styles %}
+{{ block.super }}
+<link rel="stylesheet" type="text/css" href="{% static "pinger/css/pinger.css" %}">
+{% endblock %}
+
+{% block scripts %}
+<script src="{% static "pinger/js/pinger.js" %}" type="text/javascript" charset="utf-8" async defer></script>
+{% endblock %}
+
+{% block content %}
+<header class="{% if object.is_active %}active{% endif %}">
+    <h1>{{ object.title }}</h1>
+    <p>
+        Opened {{ object.start | naturaltime }}{% if object.end %}, Closed {{ object.end | naturaltime }}{% endif %}
+    </p>
+</header>
+<div class="timeline">
+    <ol>
+        {% for update in object.updates.all %}
+        <li>
+            <div class="meta {{ update.get_status_display | lower}}">
+                {{ update.created_at | naturaltime }}
+            </div>
+            <p>{{ update.text | markdown }}</p>
+        </li>
+        {% endfor %}
+    </ol>
+</div>
+{% endblock %}
